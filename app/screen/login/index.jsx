@@ -8,23 +8,39 @@ import {
   Dimensions,
   Image,
   ScrollView,
+  Alert,
 } from "react-native";
 import React from "react";
 import { MyButton } from "../../components";
 import { ICGoogle, ICFacebook} from '../../../assets';
+import {navigation } from "@react-navigation/native"
 
 const windowWidth = Dimensions.get("window").width;
 
-export default function LoginScreen() {
+export default function LoginScreen({ navigation }) {
   const [email, onChangeEmail] = React.useState("");
   const [pass, onChangePassword] = React.useState("");
+  const username = 'zakywisnu';
+  const passwordd = 321;
 
   const onSubmitLogin = () => {
-    if (email == "okepemerintah" && pass == 321) {
-      alert("anda sudah memasuki kawasan pemerintah");
+    try {
+
+    if (email == username && pass == passwordd) {
+      navigation.navigate("Home");
     } else {
-      alert("Salah");
+      alert('email or Password is Wrong')
     }
+  } catch (err) {
+    Alert.alert("Error", err.message, [
+      {
+        text: "OK",
+        onPress:() => {
+          console.log("ERR");
+        },
+      },
+    ]);
+  }
   };
 
   return (
@@ -64,7 +80,8 @@ export default function LoginScreen() {
           />
 
           <Button onPress={onSubmitLogin} color="green" title="Login" />
-        </View>
+        </View>      
+          <Text style={style.textContinueStyle}>Or Continue With</Text>
         <View style= {style.btnContainer}>
         <MyButton
         Text= "Google"
@@ -74,6 +91,10 @@ export default function LoginScreen() {
         imgUrl= {ICFacebook}
         style= {{ marginLeft: 30}}
         />
+        </View>
+        <View style={style.textAccount}>
+          <Text>Don't Have Account?</Text>
+          <Text style={{fontWeight:'bold'}}>Create Now!!!</Text>
         </View>
       </View>
     </ScrollView>
@@ -110,5 +131,17 @@ const style = StyleSheet.create({
     flexDirection: "row",
     padding: 20,
 
+  },
+  textContinueStyle: {
+    textAlign: "center",
+    padding: 8
+  },
+  textAccount: {
+    alignItems: "center",
+    flex: 1,
+    flexDirection: 'row',
+    alignContent: 'center',
+    justifyContent: 'center',
   }
+
 });
